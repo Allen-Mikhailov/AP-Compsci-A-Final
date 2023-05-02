@@ -12,7 +12,11 @@ public class Engine {
 
     public void AddEntity(Entity e)
     {
+        entities.add(e);
+        for (String input : e.inputs)
+        {
 
+        }
     }
 
     private void DrawDebug(Graphics g)

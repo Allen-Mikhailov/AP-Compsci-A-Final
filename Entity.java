@@ -18,4 +18,8 @@ public class Entity {
     {
 
     }
+
+    // Input
+    public void MouseInput(String action, int x, int y){}
+    public void KeyBoardInput(String action, int keycode){}
 }
