@@ -66,7 +66,8 @@ class MyPanelb extends JPanel implements ActionListener, MouseListener, KeyListe
 	public void keyPressed(KeyEvent e)
 	{engine.KeyBoardInput("Key.Pressed", e);}
 
-	public void keyReleased(KeyEvent e)	{}
+	public void keyReleased(KeyEvent e)	
+	{engine.KeyBoardInput("Key.Released", e);}
 	public void keyTyped(KeyEvent e){}
 
 	

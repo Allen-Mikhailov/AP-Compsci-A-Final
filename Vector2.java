@@ -42,6 +42,8 @@ public class Vector2
 
     public static Vector2 normalize(Vector2 a)
     {
+        if (a.magnitude() == 0)
+            return Vector2.zero;
         return new Vector2(a.x / a.magnitude(), a. y/ a.magnitude());
     }
 
