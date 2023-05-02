@@ -7,19 +7,35 @@ import java.io.*;
 public class Entity {
     public static int count = 0;
 
-    private double x, y;
+    public Vector2 pos;
 
-    public String[] inputs = {};
+    public String[] events = {};
 
     private Rect getBounds()
     {return Rect.empty;}
 
-    private void draw(Graphics g)
+    public Entity()
+    {
+        pos = new Vector2();
+        count++;
+    }
+
+    public void update()
     {
 
     }
 
-    // Input
-    public void MouseInput(String action, int x, int y){}
-    public void KeyBoardInput(String action, int keycode){}
+    public void render(Graphics g, Vector2 cameraPos)
+    {
+        int lx = (int) (pos.x-cameraPos.x);
+        int ly = (int) (pos.y-cameraPos.y);
+
+        g.setColor(Color.red);
+        g.fillRect(lx - 25, ly - 25, 50, 50);
+    }
+
+    public void OnEvent(String event, Object eventObj)
+    {
+
+    }
 }

@@ -15,7 +15,7 @@ public class Rect {
     public Rect fromXYWH(double x, double y, double width, double height)
     {
         // Middle
-        return new Rect(x, y, width, height);
+        return new Rect(x-width/2, y-height/2, x+width/2, y+height/2);
     }
 
     public Rect fromVectors(Vector2 a, Vector2 b)

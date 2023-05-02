@@ -40,6 +40,11 @@ public class Vector2
         return Math.sqrt(a.x*a.x + a.y*a.y);
     }
 
+    public static Vector2 normalize(Vector2 a)
+    {
+        return new Vector2(a.x / a.magnitude(), a. y/ a.magnitude());
+    }
+
     public Vector2 add(Vector2 b)
     {return Vector2.add(this, b);}
 
@@ -54,9 +59,19 @@ public class Vector2
 
     public double magnitude()
     {return Vector2.magnitude(this);}
+
+    public Vector2 normalize()
+    {return Vector2.normalize(this);}
        
     // Compare two vectors
     public boolean equals(Vector2 other) {
         return (this.x == other.x && this.y == other.y);
     }
+
+    // Starting Vectors
+    public static Vector2 zero = new Vector2();
+    public static Vector2 up = new Vector2(0, 1);
+    public static Vector2 down = new Vector2(0, -1);
+    public static Vector2 left = new Vector2(-1, 0);
+    public static Vector2 right = new Vector2(1, 0);
 }
