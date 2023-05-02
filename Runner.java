@@ -38,7 +38,7 @@ class MyPanelb extends JPanel implements ActionListener, MouseListener, KeyListe
 	MyPanelb()
 	{
 		time = new Timer(15, this); //sets delay to 15 millis and calls the actionPerformed of this class.
-		setSize(800, 800);
+		setSize(800, 810);
 		setVisible(true); //it's like calling the repaint method.
 		time.start();
 
@@ -49,16 +49,31 @@ class MyPanelb extends JPanel implements ActionListener, MouseListener, KeyListe
 	}
 	
 	public void paintComponent(Graphics g)
-	{engine.DrawFrame(g);}
+	{
+		Dimension size =  getSize();
+		engine.screenWidth = size.width;
+		engine.screenHeight = size.height;
+		engine.DrawFrame(g);
+	}
 	
 	public void actionPerformed(ActionEvent e)
-	{repaint();}
+	{
+		PointerInfo a = MouseInfo.getPointerInfo();
+		Point b = a.getLocation();
+		int x = (int) b.getX();
+		int y = (int) b.getY();
+
+		engine.mousePos = new Vector2(x-6, y-30);
+
+		repaint();
+	}
 
 	public void mouseClicked(MouseEvent e)
 	{engine.MouseInput("Mouse.Clicked", e);}
 
 	public void mousePressed(MouseEvent e){}
 	public void mouseReleased(MouseEvent e){}
+
 	public void mouseEntered(MouseEvent e){}
 	public void mouseExited(MouseEvent e){}
 

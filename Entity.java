@@ -38,4 +38,9 @@ public class Entity {
     {
 
     }
+
+    public void Destroy()
+    {
+        Engine.engine.removalQueue.add(this);
+    }
 }

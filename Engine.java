@@ -13,13 +13,21 @@ public class Engine {
 
     public int screenWidth, screenHeight;
 
+    public Vector2 mousePos;
+
     public static Engine engine;
     private ArrayList<Entity> entities;
     private HashMap<String, ArrayList<Entity>> eventConnections;
 
+    private long last_time;
+    private double FPS;
+
+    public ArrayList<Entity> removalQueue;
+
+
     public Game game;
 
-    private Entity camera;
+    public Entity camera;
 
     public void SetCamera(Entity e)
     {
@@ -33,6 +41,12 @@ public class Engine {
         eventConnections = new HashMap<String, ArrayList<Entity>>();
 
         game = new Game(this);
+        mousePos = Vector2.zero;
+
+        removalQueue = new ArrayList<Entity>();
+
+        last_time = System.nanoTime();
+    
     }
 
     private void AddConnection(String event, Entity entity)
@@ -52,6 +66,23 @@ public class Engine {
         }
     }
 
+    public void RemoveEntity(Entity e)
+    {
+        entities.remove(e);
+        for (String event : e.events)
+        {
+            eventConnections.get(event).remove(e);
+        }
+    }
+
+    public Vector2 GetMouseDirection()
+    {
+        return new Vector2(
+            mousePos.x-screenWidth/2, 
+            mousePos.y-screenHeight/2
+        ).normalize();
+    }
+
     public void FireEvent(String event, Object eventObject)
     {
         if (!eventConnections.containsKey(event))
@@ -68,12 +99,18 @@ public class Engine {
         g.setColor(Color.BLACK);
 
         // Frames
-		g.drawString("Frame: "+frame, 0, 10);
+		g.drawString("Frame: "+frame + " FPS: "+Math.floor(FPS), 0, 10);
         g.drawString("Entities: "+entities.size(), 0, 20);
     }
 
     public void DrawFrame(Graphics g)
     {
+        long time = System.nanoTime();
+        double delta_time =  ((double) (time - last_time) / (1000000 * 1000));
+        last_time = time;
+
+        FPS = 1/delta_time;
+
         g.setColor(Color.WHITE);
 		g.fillRect(0,0,800,800);
 
@@ -88,6 +125,13 @@ public class Engine {
         {
             entity.render(g, cameraPos);
         }
+
+        for (Entity entity : removalQueue)
+        {
+            RemoveEntity(entity);
+        }
+
+        removalQueue = new ArrayList<Entity>();
 		
         DrawDebug(g);
         frame++;

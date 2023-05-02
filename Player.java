@@ -1,4 +1,6 @@
-import java.awt.event.KeyEvent;
+import java.awt.*;
+import javax.swing.*;
+import java.awt.event.*;
 
 public class Player extends Entity {
 
@@ -13,7 +15,7 @@ public class Player extends Entity {
 
     public Player()
     {
-        events = new String[] {"Key.Pressed", "Key.Released"};
+        events = new String[] {"Key.Pressed", "Key.Released", "Mouse.Clicked"};
         direction = Vector2.zero;
     }
 
@@ -36,7 +38,6 @@ public class Player extends Entity {
     private void keyevent(KeyEvent e, String type)
     {
         String keychar = ""+ (char) e.getKeyCode();
-        System.out.println(keychar);
         switch (keychar)
         {
             case "W":
@@ -73,6 +74,15 @@ public class Player extends Entity {
         }
     }
 
+    private void Fire(MouseEvent e)
+    {
+        System.out.println("Fire");
+        Vector2 mouseDir = Engine.engine.GetMouseDirection();
+        Bullet newBullet = new Bullet(pos.add(mouseDir.scale(25)), mouseDir.scale(20));
+
+        Engine.engine.AddEntity(newBullet);
+    }
+
     @Override
     public void OnEvent(String event, Object eventObj) {
         switch (event)
@@ -83,11 +93,27 @@ public class Player extends Entity {
             case "Key.Released":
                 keyevent((KeyEvent) eventObj, "Released");
                 break;
+            case "Mouse.Clicked":
+                Fire((MouseEvent) eventObj);
+                break;
         }
     }
 
     @Override
     public void update() {
         pos = pos.add(direction.scale(speed));
+    }
+
+    @Override
+    public void render(Graphics g, Vector2 cameraPos) {
+        Vector2 mouseDir = Engine.engine.GetMouseDirection();
+
+        int lx = (int) (pos.x-cameraPos.x);
+        int ly = (int) (pos.y-cameraPos.y);
+
+        g.setColor(Color.black);
+        g.fillOval(lx-25, ly-25, 50, 50);
+
+        g.drawLine(lx, ly, lx+(int)(mouseDir.x*40), ly+(int)(mouseDir.y*40));
     }
 }
