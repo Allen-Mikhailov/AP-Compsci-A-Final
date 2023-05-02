@@ -44,7 +44,7 @@ class MyPanelb extends JPanel implements ActionListener
 		g.fillRect(0,0,800,800);
 		
 		g.setColor(Color.BLACK);
-		g.drawString(Integer.toString(frame), 10, 10);
+		g.drawString(Integer.toString(frame), 0, 10);
 
 		frame++;
 	}
