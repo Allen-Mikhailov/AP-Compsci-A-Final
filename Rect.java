@@ -1,6 +1,9 @@
 public class Rect {
     public double x1, x2;
     public double y1, y2;
+
+    public static Rect empty = new Rect(0, 0, 0, 0);
+
     private Rect(double x1, double y1, double x2, double y2)
     {
         this.x1 = x1;

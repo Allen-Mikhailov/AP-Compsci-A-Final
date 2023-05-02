@@ -5,6 +5,9 @@ import java.awt.event.*;
 import javax.imageio.*;
 import java.io.*;
 
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+
 public class Game
 {
 	public static void main(String...args)
@@ -15,6 +18,10 @@ public class Game
 		j.add(m); //adds the panel to the frame so that the picture will be drawn
 			      //use setContentPane() sometimes works better then just add b/c of greater efficiency.
 
+		// Input
+		j.addKeyListener(m);
+	    j.addMouseListener(m);
+
 		j.setVisible(true); //allows the frame to be shown.
 
 		j.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //makes the dialog box exit when you click the "x" button.
@@ -22,11 +29,11 @@ public class Game
 
 }
 
-class MyPanelb extends JPanel implements ActionListener
+class MyPanelb extends JPanel implements ActionListener, MouseListener, KeyListener
 {
 	
 	private Timer time;
-	private int frame = 0;
+	private Engine engine = new Engine();
 	
 	MyPanelb()
 	{
@@ -38,23 +45,25 @@ class MyPanelb extends JPanel implements ActionListener
 	}
 	
 	public void paintComponent(Graphics g)
-	{
-
-		g.setColor(Color.WHITE);
-		g.fillRect(0,0,800,800);
-		
-		g.setColor(Color.BLACK);
-		g.drawString(Integer.toString(frame), 0, 10);
-
-		frame++;
-	}
+	{engine.DrawFrame(g);}
 	
 	public void actionPerformed(ActionEvent e)
-	{
-		
-			
-			
-		repaint();  // call to paintComponent
-	}
+	{repaint();}
+
+	public void mouseClicked(MouseEvent e)
+	{engine.MouseInput("Clicked", e.getX(), e.getY());}
+
+	public void mousePressed(MouseEvent e){}
+	public void mouseReleased(MouseEvent e){}
+	public void mouseEntered(MouseEvent e){}
+	public void mouseExited(MouseEvent e){}
+
+
+	public void keyPressed(KeyEvent e)
+	{engine.KeyBoardInput("Pressed", e.getKeyCode());}
+
+	public void keyReleased(KeyEvent e)	{}
+	public void keyTyped(KeyEvent e){}
+
 	
 }
