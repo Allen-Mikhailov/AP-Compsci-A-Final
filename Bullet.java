@@ -1,7 +1,7 @@
 import java.awt.Color;
 import java.awt.Graphics;
 
-public class Bullet extends Entity{
+public class Bullet extends Entity implements Collider {
     Vector2 velocity;
 
     public Bullet(Vector2 pos, Vector2 velocity)
@@ -25,5 +25,20 @@ public class Bullet extends Entity{
 
         g.setColor(Color.black);
         g.fillOval(lx-3, ly-3, 6, 6);
+    }
+
+    @Override
+    public void onTouch(Entity e) {
+        
+    }
+
+    @Override
+    public double radius() {
+        return 6;
+    }
+
+    @Override
+    public boolean isHard() {
+        return false;
     }
 }

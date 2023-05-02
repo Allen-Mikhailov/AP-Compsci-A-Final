@@ -2,7 +2,7 @@ import java.awt.*;
 import javax.swing.*;
 import java.awt.event.*;
 
-public class Player extends Entity {
+public class Player extends Mortal  implements Collider {
 
     private Vector2 direction;
 
@@ -76,7 +76,6 @@ public class Player extends Entity {
 
     private void Fire(MouseEvent e)
     {
-        System.out.println("Fire");
         Vector2 mouseDir = Engine.engine.GetMouseDirection();
         Bullet newBullet = new Bullet(pos.add(mouseDir.scale(25)), mouseDir.scale(20));
 
@@ -115,5 +114,20 @@ public class Player extends Entity {
         g.fillOval(lx-25, ly-25, 50, 50);
 
         g.drawLine(lx, ly, lx+(int)(mouseDir.x*40), ly+(int)(mouseDir.y*40));
+    }
+
+    @Override
+    public double radius() {
+        return 5;
+    }
+
+    @Override
+    public void onTouch(Entity e) {
+        System.out.println("Touched");
+    }
+
+    @Override
+    public boolean isHard() {
+        return true;
     }
 }

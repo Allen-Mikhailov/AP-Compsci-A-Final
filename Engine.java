@@ -17,6 +17,7 @@ public class Engine {
 
     public static Engine engine;
     private ArrayList<Entity> entities;
+    private ArrayList<Collider> colliders;
     private HashMap<String, ArrayList<Entity>> eventConnections;
 
     private long last_time;
@@ -38,6 +39,7 @@ public class Engine {
     {
         engine = this;
         entities = new ArrayList<Entity>();
+        colliders = new ArrayList<Collider>();
         eventConnections = new HashMap<String, ArrayList<Entity>>();
 
         game = new Game(this);
@@ -63,6 +65,12 @@ public class Engine {
         for (String event : e.events)
         {
             AddConnection(event, e);
+        }
+
+        if (e instanceof Collider)
+        {
+            System.out.println("Added Collider");
+            colliders.add((Collider) e);
         }
     }
 
