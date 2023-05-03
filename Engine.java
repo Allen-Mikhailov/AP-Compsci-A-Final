@@ -17,7 +17,7 @@ public class Engine {
 
     public static Engine engine;
     private ArrayList<Entity> entities;
-    private ArrayList<Collider> colliders;
+    private ArrayList<Entity> colliders;
     private HashMap<String, ArrayList<Entity>> eventConnections;
 
     private long last_time;
@@ -39,7 +39,7 @@ public class Engine {
     {
         engine = this;
         entities = new ArrayList<Entity>();
-        colliders = new ArrayList<Collider>();
+        colliders = new ArrayList<Entity>();
         eventConnections = new HashMap<String, ArrayList<Entity>>();
 
         game = new Game(this);
@@ -69,8 +69,7 @@ public class Engine {
 
         if (e instanceof Collider)
         {
-            System.out.println("Added Collider");
-            colliders.add((Collider) e);
+            colliders.add(e);
         }
     }
 
@@ -80,6 +79,10 @@ public class Engine {
         for (String event : e.events)
         {
             eventConnections.get(event).remove(e);
+        }
+        if (e instanceof Collider)
+        {
+            colliders.remove((Collider) e);
         }
     }
 
@@ -111,6 +114,38 @@ public class Engine {
         g.drawString("Entities: "+entities.size(), 0, 20);
     }
 
+    public void HandleCollisions()
+    {
+        for (Entity e1 : colliders)
+        {
+            for (Entity e2 : colliders)
+            {
+                if (e1 == e2)
+                    continue;
+
+                Collider c1 = (Collider) e1;
+                Collider c2 = (Collider) e2;
+
+                Vector2 dif = e2.pos.sub(e1.pos);
+                double distance = dif.magnitude();
+                double distanceDif = c1.radius() + c2.radius() - distance;
+
+                if ( distanceDif > 0 )
+                {
+                    c1.onTouch(e2);
+                    c2.onTouch(e1);
+                    if (c2.isHard() && c1.isHard() || true)
+                    {
+                        double weightRatio = c1.weight()/(c1.weight()+c2.weight());
+
+                        e1.pos = e1.pos.sub(dif.normalize().scale(distanceDif/2*(1-weightRatio)));
+                        e2.pos = e2.pos.add(dif.normalize().scale(distanceDif/2*weightRatio));
+                    }
+                }
+            }
+        }
+    }
+
     public void DrawFrame(Graphics g)
     {
         long time = System.nanoTime();
@@ -123,6 +158,8 @@ public class Engine {
 		g.fillRect(0,0,800,800);
 
         Vector2 cameraPos = Vector2.sub(camera.pos, new Vector2(screenWidth/2, screenHeight/2));
+
+        HandleCollisions();
 
         for (Entity entity : entities)
         {

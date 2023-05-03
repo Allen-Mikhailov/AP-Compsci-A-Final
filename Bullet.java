@@ -41,4 +41,9 @@ public class Bullet extends Entity implements Collider {
     public boolean isHard() {
         return false;
     }
+
+    @Override
+    public double weight() {
+        return .1;
+    }
 }

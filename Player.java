@@ -130,4 +130,8 @@ public class Player extends Mortal  implements Collider {
     public boolean isHard() {
         return true;
     }
+    @Override
+    public double weight() {
+        return 1;
+    }
 }

@@ -42,4 +42,9 @@ public class Enemy extends Mortal implements Collider {
     public boolean isHard() {
         return true;
     }
+
+    @Override
+    public double weight() {
+        return 1;
+    }
 }
