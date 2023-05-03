@@ -3,20 +3,21 @@ import javax.swing.*;
 import java.awt.event.*;
 import javax.imageio.*;
 import java.io.*;
+import java.util.ArrayList;
 
 public class Entity {
     public static int count = 0;
 
     public Vector2 pos;
 
-    public String[] events = {};
+    ArrayList<Component> components;
 
-    private Rect getBounds()
-    {return Rect.empty;}
+    public String[] events = {};
 
     public Entity()
     {
         pos = new Vector2();
+        components = new ArrayList<Component>();
         count++;
     }
 

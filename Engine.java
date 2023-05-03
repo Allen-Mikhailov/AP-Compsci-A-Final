@@ -40,7 +40,6 @@ public class Engine {
         engine = this;
         entities = new ArrayList<Entity>();
         colliders = new ArrayList<Entity>();
-        eventConnections = new HashMap<String, ArrayList<Entity>>();
 
         game = new Game(this);
         mousePos = Vector2.zero;
@@ -51,21 +50,9 @@ public class Engine {
     
     }
 
-    private void AddConnection(String event, Entity entity)
-    {
-        if (!eventConnections.containsKey(event))
-            eventConnections.put(event, new ArrayList<Entity>());
-
-        eventConnections.get(event).add(entity);
-    }
-
     public void AddEntity(Entity e)
     {
         entities.add(e);
-        for (String event : e.events)
-        {
-            AddConnection(event, e);
-        }
 
         if (e instanceof Collider)
         {
@@ -76,10 +63,6 @@ public class Engine {
     public void RemoveEntity(Entity e)
     {
         entities.remove(e);
-        for (String event : e.events)
-        {
-            eventConnections.get(event).remove(e);
-        }
         if (e instanceof Collider)
         {
             colliders.remove((Collider) e);
@@ -164,6 +147,10 @@ public class Engine {
         for (Entity entity : entities)
         {
             entity.update();
+            for (Component component : entity.components)
+            {
+                component.update();
+            }
         }
 
         for (Entity entity : entities)
