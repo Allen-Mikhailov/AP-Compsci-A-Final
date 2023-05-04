@@ -17,8 +17,6 @@ public class Engine {
 
     public static Engine engine;
     private ArrayList<Entity> entities;
-    private ArrayList<Entity> colliders;
-    private HashMap<String, ArrayList<Entity>> eventConnections;
 
     private long last_time;
     private double FPS;
@@ -54,19 +52,19 @@ public class Engine {
     {
         entities.add(e);
 
-        if (e instanceof Collider)
-        {
-            colliders.add(e);
-        }
+        // if (e instanceof Collider)
+        // {
+        //     colliders.add(e);
+        // }
     }
 
     public void RemoveEntity(Entity e)
     {
         entities.remove(e);
-        if (e instanceof Collider)
-        {
-            colliders.remove((Collider) e);
-        }
+        // if (e instanceof Collider)
+        // {
+        //     colliders.remove((Collider) e);
+        // }
     }
 
     public Vector2 GetMouseDirection()
@@ -99,34 +97,7 @@ public class Engine {
 
     public void HandleCollisions()
     {
-        for (Entity e1 : colliders)
-        {
-            for (Entity e2 : colliders)
-            {
-                if (e1 == e2)
-                    continue;
-
-                Collider c1 = (Collider) e1;
-                Collider c2 = (Collider) e2;
-
-                Vector2 dif = e2.pos.sub(e1.pos);
-                double distance = dif.magnitude();
-                double distanceDif = c1.radius() + c2.radius() - distance;
-
-                if ( distanceDif > 0 )
-                {
-                    c1.onTouch(e2);
-                    c2.onTouch(e1);
-                    if (c2.isHard() && c1.isHard() || true)
-                    {
-                        double weightRatio = c1.weight()/(c1.weight()+c2.weight());
-
-                        e1.pos = e1.pos.sub(dif.normalize().scale(distanceDif/2*(1-weightRatio)));
-                        e2.pos = e2.pos.add(dif.normalize().scale(distanceDif/2*weightRatio));
-                    }
-                }
-            }
-        }
+        
     }
 
     public void DrawFrame(Graphics g)

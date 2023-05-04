@@ -2,7 +2,7 @@ import java.awt.*;
 import javax.swing.*;
 import java.awt.event.*;
 
-public class Player extends Mortal  implements Collider {
+public class Player extends Mortal {
 
     private Vector2 direction;
 
@@ -17,6 +17,9 @@ public class Player extends Mortal  implements Collider {
     {
         events = new String[] {"Key.Pressed", "Key.Released", "Mouse.Clicked"};
         direction = Vector2.zero;
+
+        Collider newCollider = new Collider(this);
+        this.AddComponent(newCollider);
     }
 
     private void UpdateDirection()
@@ -116,22 +119,22 @@ public class Player extends Mortal  implements Collider {
         g.drawLine(lx, ly, lx+(int)(mouseDir.x*40), ly+(int)(mouseDir.y*40));
     }
 
-    @Override
-    public double radius() {
-        return 5;
-    }
+    // @Override
+    // public double radius() {
+    //     return 5;
+    // }
 
-    @Override
-    public void onTouch(Entity e) {
-        System.out.println("Touched");
-    }
+    // @Override
+    // public void onTouch(Entity e) {
+    //     // System.out.println("Touched");
+    // }
 
-    @Override
-    public boolean isHard() {
-        return true;
-    }
-    @Override
-    public double weight() {
-        return 1;
-    }
+    // @Override
+    // public boolean isHard() {
+    //     return true;
+    // }
+    // @Override
+    // public double weight() {
+    //     return 1;
+    // }
 }

@@ -11,6 +11,11 @@ public class Component
 
     }
 
+    public static void frame()
+    {
+        
+    }
+
     public void OnDestroy()
     {
         

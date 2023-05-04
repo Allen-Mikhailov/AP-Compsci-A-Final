@@ -26,6 +26,23 @@ public class Entity {
 
     }
 
+    public void AddComponent(Component component)
+    {
+        components.add(component);
+    }
+
+    public Component GetComponent(Class T)
+    {
+        for (Component component : components)
+        {
+            if (component.getClass() == T)
+            {
+                return component;
+            }
+        }
+        return null;
+    }
+
     public void render(Graphics g, Vector2 cameraPos)
     {
         int lx = (int) (pos.x-cameraPos.x);

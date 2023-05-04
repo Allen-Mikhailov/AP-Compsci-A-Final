@@ -1,7 +1,7 @@
 import java.awt.Color;
 import java.awt.Graphics;
 
-public class Enemy extends Mortal implements Collider {
+public class Enemy extends Mortal {
     private Entity target;
 
     private double size = 50;
@@ -10,6 +10,9 @@ public class Enemy extends Mortal implements Collider {
     public Enemy(Mortal target, Vector2 pos) {
         this.target = target;
         this.pos = pos;
+
+        Collider newCollider = new Collider(this);
+        this.AddComponent(newCollider);
     }
 
     @Override
@@ -26,25 +29,5 @@ public class Enemy extends Mortal implements Collider {
         Vector2 dir = target.pos.sub(pos).normalize();
 
         pos = pos.add(dir.scale(speed));
-    }
-
-    @Override
-    public double radius() {
-        return size;
-    }
-
-    @Override
-    public void onTouch(Entity e) {
-        System.out.println("Touched");
-    }
-
-    @Override
-    public boolean isHard() {
-        return true;
-    }
-
-    @Override
-    public double weight() {
-        return 1;
     }
 }
