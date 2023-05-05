@@ -17,11 +17,13 @@ public class Engine {
 
     public static Engine engine;
     private ArrayList<Entity> entities;
+    public ArrayList<Entity> removalQueue;
 
     private long last_time;
-    private double FPS;
+    public static double FPS;
+    public static double delta_time;
 
-    public ArrayList<Entity> removalQueue;
+    public static double GameTime;
 
 
     public Game game;
@@ -37,10 +39,11 @@ public class Engine {
     {
         engine = this;
         entities = new ArrayList<Entity>();
-        colliders = new ArrayList<Entity>();
 
         game = new Game(this);
         mousePos = Vector2.zero;
+
+        GameTime = 0;
 
         removalQueue = new ArrayList<Entity>();
 
@@ -51,20 +54,11 @@ public class Engine {
     public void AddEntity(Entity e)
     {
         entities.add(e);
-
-        // if (e instanceof Collider)
-        // {
-        //     colliders.add(e);
-        // }
     }
 
     public void RemoveEntity(Entity e)
     {
         entities.remove(e);
-        // if (e instanceof Collider)
-        // {
-        //     colliders.remove((Collider) e);
-        // }
     }
 
     public Vector2 GetMouseDirection()
@@ -75,36 +69,35 @@ public class Engine {
         ).normalize();
     }
 
-    public void FireEvent(String event, Object eventObject)
-    {
-        if (!eventConnections.containsKey(event))
-            return;
-
-        for (Entity entity : eventConnections.get(event))
-        {
-            entity.OnEvent(event, eventObject);
-        }
+    public static double roundAvoid(double value, int places) {
+        double scale = Math.pow(10, places);
+        return Math.round(value * scale) / scale;
     }
 
     private void DrawDebug(Graphics g)
     {
         g.setColor(Color.BLACK);
 
-        // Frames
-		g.drawString("Frame: "+frame + " FPS: "+Math.floor(FPS), 0, 10);
-        g.drawString("Entities: "+entities.size(), 0, 20);
-    }
+        String[] debugs = new String[] {
+            "Time: "+roundAvoid(GameTime, 2),
+            "Frame: "+frame,
+            "FPS: "+roundAvoid(FPS, 2),
+            "Entities: "+entities.size()
+        };
 
-    public void HandleCollisions()
-    {
-        
+        for (int i = 0; i < debugs.length; i++)
+        {
+            g.drawString(debugs[i], 0, (i+1)*12);
+        }
     }
 
     public void DrawFrame(Graphics g)
     {
         long time = System.nanoTime();
-        double delta_time =  ((double) (time - last_time) / (1000000 * 1000));
+        delta_time =  ((double) (time - last_time) / (1000000 * 1000));
         last_time = time;
+
+        GameTime += delta_time;
 
         FPS = 1/delta_time;
 
@@ -112,8 +105,6 @@ public class Engine {
 		g.fillRect(0,0,800,800);
 
         Vector2 cameraPos = Vector2.sub(camera.pos, new Vector2(screenWidth/2, screenHeight/2));
-
-        HandleCollisions();
 
         for (Entity entity : entities)
         {
@@ -123,6 +114,8 @@ public class Engine {
                 component.update();
             }
         }
+
+        game.Update();
 
         for (Entity entity : entities)
         {
@@ -142,8 +135,8 @@ public class Engine {
 
     // Input
     public void MouseInput(String event, MouseEvent e)
-    {FireEvent(event, e);}
+    {EventHandler.FireEvent(event, e);}
 
     public void KeyBoardInput(String event, KeyEvent e)
-    {FireEvent(event, e);}
+    {EventHandler.FireEvent(event, e);}
 }

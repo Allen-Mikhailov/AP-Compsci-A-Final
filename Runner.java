@@ -70,15 +70,22 @@ class MyPanelb extends JPanel implements ActionListener, MouseListener, KeyListe
 	public void mouseClicked(MouseEvent e)
 	{engine.MouseInput("Mouse.Clicked", e);}
 
-	public void mousePressed(MouseEvent e){}
-	public void mouseReleased(MouseEvent e){}
+	public void mousePressed(MouseEvent e)
+	{
+		engine.MouseInput("Mouse.Pressed", e);
+	}
+
+	public void mouseReleased(MouseEvent e)
+	{engine.MouseInput("Mouse.Released", e);}
 
 	public void mouseEntered(MouseEvent e){}
 	public void mouseExited(MouseEvent e){}
 
 
 	public void keyPressed(KeyEvent e)
-	{engine.KeyBoardInput("Key.Pressed", e);}
+	{
+		engine.KeyBoardInput("Key.Pressed", e);
+	}
 
 	public void keyReleased(KeyEvent e)	
 	{engine.KeyBoardInput("Key.Released", e);}

@@ -13,13 +13,18 @@ public class Player extends Mortal {
     private boolean Left;
     private boolean Right;
 
+    private boolean heldDown = false;
+
     public Player()
     {
-        events = new String[] {"Key.Pressed", "Key.Released", "Mouse.Clicked"};
-        direction = Vector2.zero;
+        EventHandler events = new EventHandler(this, new String[] 
+            {"Key.Pressed", "Key.Released", "Mouse.Pressed", "Mouse.Released"});
+        AddComponent(events);
 
         Collider newCollider = new Collider(this);
-        this.AddComponent(newCollider);
+        AddComponent(newCollider);
+
+        direction = Vector2.zero;
     }
 
     private void UpdateDirection()
@@ -95,8 +100,13 @@ public class Player extends Mortal {
             case "Key.Released":
                 keyevent((KeyEvent) eventObj, "Released");
                 break;
-            case "Mouse.Clicked":
+            case "Mouse.Pressed":
                 Fire((MouseEvent) eventObj);
+                heldDown = true;
+                break;
+
+            case "Mouse.Released":
+                heldDown = false;
                 break;
         }
     }

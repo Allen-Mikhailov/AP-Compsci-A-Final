@@ -19,6 +19,17 @@ public class EventHandler extends Component {
         eventConnections.get(event).remove(handler);
     }
 
+    public static void FireEvent(String event, Object eventObj)
+    {
+        if (eventConnections.get(event) != null)
+        {
+            for (EventHandler handler : eventConnections.get(event))
+            {
+                handler.parent.OnEvent(event, eventObj);
+            }
+        }
+    }
+
     public EventHandler(Entity e, String[] events)
     {
         super(e);

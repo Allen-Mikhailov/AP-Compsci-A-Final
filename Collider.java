@@ -2,7 +2,7 @@ import java.util.ArrayList;
 
 public class Collider extends Component {
 
-    private double radius = 50;
+    private double radius = 25;
     private double weight = 1;
     private boolean movable = true;
 
@@ -21,14 +21,14 @@ public class Collider extends Component {
         colliders.add(e);
     }
 
-    public static void frame()
+    public static void handleCollisions()
     {
-        for (Entity e1 : colliders)
+        for (int i = 0; i < colliders.size(); i++)
         {
-            for (Entity e2 : colliders)
+            Entity e1 = colliders.get(i);
+            for (int j = i+1; j < colliders.size(); j++)
             {
-                if (e1 == e2)
-                    continue;
+                Entity e2 = colliders.get(j);
 
                 Collider c1 = (Collider) e1.GetComponent(Collider.class);
                 Collider c2 = (Collider) e2.GetComponent(Collider.class);

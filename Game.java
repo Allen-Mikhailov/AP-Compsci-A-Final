@@ -22,6 +22,6 @@ public class Game {
 
     public void Update()
     {
-        
+        Collider.handleCollisions();
     }
 }

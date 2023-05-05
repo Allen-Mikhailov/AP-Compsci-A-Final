@@ -8,11 +8,6 @@ public class Component
 
     public void update()
     {
-
-    }
-
-    public static void frame()
-    {
         
     }
 

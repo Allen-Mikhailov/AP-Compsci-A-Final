@@ -30,23 +30,13 @@ public class Bullet extends Entity  {
         g.fillOval(lx-3, ly-3, 6, 6);
     }
 
-    // @Override
-    // public void onTouch(Entity e) {
-        
-    // }
-
-    // @Override
-    // public double radius() {
-    //     return 6;
-    // }
-
-    // @Override
-    // public boolean isHard() {
-    //     return false;
-    // }
-
-    // @Override
-    // public double weight() {
-    //     return .1;
-    // }
+    @Override
+    public void OnEvent(String event, Object eventObj) {
+        switch (event)
+        {
+            case "Collider.Touch":
+                Entity e = (Entity) eventObj;
+                Destroy();
+        }
+    }
 }
