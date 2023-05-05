@@ -28,7 +28,7 @@ public class Player extends Mortal {
 
         direction = Vector2.zero;
 
-        bulletTimer = new EngineTimer(0);
+        bulletTimer = new EngineTimer(0.1);
     }
 
     private void UpdateDirection()

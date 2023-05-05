@@ -1,7 +1,7 @@
 public class Game {
     private Engine engine;
 
-    final double spawnTime = .25;
+    final double spawnTime = 2.25;
 
     Player player;
     Camera camera;
@@ -30,10 +30,15 @@ public class Game {
     public void Update()
     {
         Collider.handleCollisions();
+        Collider.handleCollisions();
+        Collider.handleCollisions();
 
         if (enemySpawns.isReady())
         {
-            Enemy enemy = new Enemy(player, new Vector2(0, 0));
+            Vector2 pos = player.pos.add(Vector2.polar(500, Engine.GameTime*3));
+
+
+            Enemy enemy = new Enemy(player, pos);
             engine.AddEntity(enemy);
             enemySpawns.reset();
         }

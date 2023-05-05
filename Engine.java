@@ -100,10 +100,12 @@ public class Engine {
         };
 
         int spacing = 12;
+        int index = 0;
 
         for (int i = 0; i < debugs.length; i++)
         {
-            g.drawString(debugs[i], 0, (i+1)*spacing);
+            g.drawString(debugs[i], 0, (index+1)*spacing);
+            index++;
         }
 
         for (int i = 0; i < entities.size(); i++)
@@ -121,8 +123,9 @@ public class Engine {
             if (count > 1)
                 name+= " x"+count;
 
-            g.drawString(name, 0, screenHeight/2+ (i+1)*spacing);
+            g.drawString(name, 0, screenHeight/2+ (index+1)*spacing);
             i+=count-1;
+            index++;
         }
     }
 

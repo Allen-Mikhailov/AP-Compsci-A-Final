@@ -64,6 +64,11 @@ public class Vector2
 
     public Vector2 normalize()
     {return Vector2.normalize(this);}
+
+    public static Vector2 polar(double radius, double theta)
+    {
+        return new Vector2(Math.cos(theta)*radius, Math.sin(theta)*radius);
+    }
        
     // Compare two vectors
     public boolean equals(Vector2 other) {

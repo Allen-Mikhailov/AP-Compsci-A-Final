@@ -60,5 +60,9 @@ public class Entity {
     public void Destroy()
     {
         Engine.engine.removalQueue.add(this);
+        for (Component comp : components)
+        {
+            comp.OnDestroy();
+        }
     }
 }

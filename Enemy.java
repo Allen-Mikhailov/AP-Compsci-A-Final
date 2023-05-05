@@ -15,13 +15,53 @@ public class Enemy extends Mortal {
         this.AddComponent(newCollider);
     }
 
+    public void DrawCircle(Graphics g, Vector2 position, int d)
+    {
+        int x =  (int) Math.round(position.x);
+        int y  = (int) Math.round(position.y);
+        g.fillOval(x-d/2, y-d/2, d, d);
+    }
+
     @Override
     public void render(Graphics g, Vector2 cameraPos) {
         int lx = (int) (pos.x-cameraPos.x);
         int ly = (int) (pos.y-cameraPos.y);
 
+        Vector2 vectorPos = new Vector2(lx, ly);
+
+        g.setColor(Color.black);
+        DrawCircle(g, vectorPos, (int) size+4);
+
         g.setColor(Color.green);
-        g.fillOval((int)(lx-size/2), (int)(ly-size/2), (int)(size), (int)(size));
+        DrawCircle(g, vectorPos, (int) size);
+
+        // Eyes
+        Vector2 normal = target.pos.sub(pos).normalize();
+        double angle = Math.atan2(normal.y, normal.x);
+
+        double eyeDistance = 10;
+        double eyesWidth = 20;
+        double eyeSize = 10;
+        double pupileSize = 5;
+
+        Vector2 eyeCenter = vectorPos.add(Vector2.polar(eyeDistance, angle));
+        Vector2 leftEyeCenter = eyeCenter.add(Vector2.polar(eyesWidth/2, angle + Math.PI/2));
+        Vector2 rightEyeCenter = eyeCenter.add(Vector2.polar(eyesWidth/2, angle - Math.PI/2));
+
+        Vector2 leftPupal = leftEyeCenter.add(Vector2.polar(eyeSize/2-pupileSize/2, angle));
+        Vector2 rightPupal = rightEyeCenter.add(Vector2.polar(eyeSize/2-pupileSize/2, angle));
+
+        g.setColor(Color.black);
+        DrawCircle(g, leftEyeCenter, (int) eyeSize+2);
+        DrawCircle(g, rightEyeCenter, (int) eyeSize+2);
+
+        g.setColor(Color.white);
+        DrawCircle(g, leftEyeCenter, (int) eyeSize);
+        DrawCircle(g, rightEyeCenter, (int) eyeSize);
+
+        g.setColor(Color.black);
+        DrawCircle(g, leftPupal, (int) pupileSize);
+        DrawCircle(g, rightPupal, (int) pupileSize);
     }
 
     @Override
