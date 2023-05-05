@@ -1,7 +1,12 @@
 public class Game {
     private Engine engine;
 
-    final double spawnTime = 5;
+    final double spawnTime = .25;
+
+    Player player;
+    Camera camera;
+
+    EngineTimer enemySpawns;
 
     public Game(Engine e)
     {
@@ -9,21 +14,28 @@ public class Game {
 
         Background background = new Background();
 
-        Player player = new Player();
+        player = new Player();
 
-        Camera camera = new Camera(player);
+        camera = new Camera(player);
         engine.SetCamera(camera);
 
-        Enemy enemy = new Enemy(player, new Vector2(0, 0));
+        enemySpawns = new EngineTimer(spawnTime);
+
 
         e.AddEntity(background);
         e.AddEntity(player);
         e.AddEntity(camera);
-        e.AddEntity(enemy);
     }
 
     public void Update()
     {
         Collider.handleCollisions();
+
+        if (enemySpawns.isReady())
+        {
+            Enemy enemy = new Enemy(player, new Vector2(0, 0));
+            engine.AddEntity(enemy);
+            enemySpawns.reset();
+        }
     }
 }

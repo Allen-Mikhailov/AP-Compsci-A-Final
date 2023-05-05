@@ -89,7 +89,7 @@ public class Player extends Mortal {
     private void Fire()
     {
         Vector2 mouseDir = Engine.engine.GetMouseDirection();
-        Bullet newBullet = new Bullet(this, pos.add(mouseDir.scale(25)), mouseDir.scale(20));
+        Bullet newBullet = new Bullet(this, pos.add(mouseDir.scale(30)), mouseDir.scale(20));
 
         Engine.engine.AddEntity(newBullet);
         bulletTimer.reset();
