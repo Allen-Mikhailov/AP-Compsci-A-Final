@@ -7,7 +7,18 @@ public class Mortal extends Entity {
     }
 
     public void setHealth(double newValue) {
-        health = newValue;
+        if (newValue <= 0)
+        {
+            health = 0;
+            onDeath();
+        } else {
+            health = newValue;
+        }   
+    }
+
+    public void onDeath()
+    {
+        Destroy();
     }
 
     public double damage(double d) {

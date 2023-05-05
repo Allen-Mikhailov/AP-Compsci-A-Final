@@ -4,7 +4,7 @@ public class Collider extends Component {
 
     private double radius = 25;
     private double weight = 1;
-    private boolean movable = true;
+    public boolean movable = true;
 
     private static ArrayList<Entity> colliders = new ArrayList<Entity>();
 
@@ -37,7 +37,7 @@ public class Collider extends Component {
                 double distance = dif.magnitude();
                 double distanceDif = c1.radius + c2.radius - distance;
 
-                if ( distanceDif > 0 )
+                if ( distanceDif > 0)
                 {
                     e1.OnEvent("Collider.Touch", e2);
                     e2.OnEvent("Collider.Touch", e1);

@@ -15,6 +15,8 @@ public class Player extends Mortal {
 
     private boolean heldDown = false;
 
+    private EngineTimer bulletTimer;
+
     public Player()
     {
         EventHandler events = new EventHandler(this, new String[] 
@@ -25,6 +27,8 @@ public class Player extends Mortal {
         AddComponent(newCollider);
 
         direction = Vector2.zero;
+
+        bulletTimer = new EngineTimer(0);
     }
 
     private void UpdateDirection()
@@ -82,12 +86,13 @@ public class Player extends Mortal {
         }
     }
 
-    private void Fire(MouseEvent e)
+    private void Fire()
     {
         Vector2 mouseDir = Engine.engine.GetMouseDirection();
-        Bullet newBullet = new Bullet(pos.add(mouseDir.scale(25)), mouseDir.scale(20));
+        Bullet newBullet = new Bullet(this, pos.add(mouseDir.scale(25)), mouseDir.scale(20));
 
         Engine.engine.AddEntity(newBullet);
+        bulletTimer.reset();
     }
 
     @Override
@@ -101,7 +106,7 @@ public class Player extends Mortal {
                 keyevent((KeyEvent) eventObj, "Released");
                 break;
             case "Mouse.Pressed":
-                Fire((MouseEvent) eventObj);
+                Fire();
                 heldDown = true;
                 break;
 
@@ -114,6 +119,11 @@ public class Player extends Mortal {
     @Override
     public void update() {
         pos = pos.add(direction.scale(speed));
+
+        if (bulletTimer.isReady() && heldDown)
+        {
+            Fire();
+        }
     }
 
     @Override

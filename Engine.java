@@ -15,8 +15,11 @@ public class Engine {
 
     public Vector2 mousePos;
 
+    public boolean started;
+
     public static Engine engine;
     private ArrayList<Entity> entities;
+    public ArrayList<Entity> addQueue;
     public ArrayList<Entity> removalQueue;
 
     private long last_time;
@@ -37,6 +40,7 @@ public class Engine {
 
     public Engine()
     {
+        started = false;
         engine = this;
         entities = new ArrayList<Entity>();
 
@@ -45,15 +49,25 @@ public class Engine {
 
         GameTime = 0;
 
+        addQueue = new ArrayList<Entity>();
         removalQueue = new ArrayList<Entity>();
 
         last_time = System.nanoTime();
-    
+        
+        started = true;
+    }
+
+    public void RawAddEntity(Entity e)
+    {
+        entities.add(e);
     }
 
     public void AddEntity(Entity e)
     {
-        entities.add(e);
+        if (started)
+            addQueue.add(e);
+        else
+            RawAddEntity(e);
     }
 
     public void RemoveEntity(Entity e)
@@ -82,13 +96,50 @@ public class Engine {
             "Time: "+roundAvoid(GameTime, 2),
             "Frame: "+frame,
             "FPS: "+roundAvoid(FPS, 2),
-            "Entities: "+entities.size()
+            "Entities: "+entities.size() + " : "
         };
+
+        int spacing = 12;
 
         for (int i = 0; i < debugs.length; i++)
         {
-            g.drawString(debugs[i], 0, (i+1)*12);
+            g.drawString(debugs[i], 0, (i+1)*spacing);
         }
+
+        for (int i = 0; i < entities.size(); i++)
+        {
+            String name = entities.get(i).getClass().getName();
+
+            int count = 1;
+
+            for (int j = i+1; j < entities.size(); j++)
+            {
+                if (name.equals(entities.get(j).getClass().getName()))
+                    count++;
+            }
+
+            if (count > 1)
+                name+= " x"+count;
+
+            g.drawString(name, 0, screenHeight/2+ (i+1)*spacing);
+            i+=count-1;
+        }
+    }
+
+    private void clearQueues()
+    {
+        for (Entity entity : addQueue)
+        {
+            RawAddEntity(entity);
+        }
+
+        for (Entity entity : removalQueue)
+        {
+            RemoveEntity(entity);
+        }
+
+        addQueue = new ArrayList<Entity>();
+        removalQueue = new ArrayList<Entity>();
     }
 
     public void DrawFrame(Graphics g)
@@ -106,6 +157,8 @@ public class Engine {
 
         Vector2 cameraPos = Vector2.sub(camera.pos, new Vector2(screenWidth/2, screenHeight/2));
 
+        clearQueues();
+
         for (Entity entity : entities)
         {
             entity.update();
@@ -117,17 +170,14 @@ public class Engine {
 
         game.Update();
 
+        clearQueues();
+
         for (Entity entity : entities)
         {
             entity.render(g, cameraPos);
         }
 
-        for (Entity entity : removalQueue)
-        {
-            RemoveEntity(entity);
-        }
-
-        removalQueue = new ArrayList<Entity>();
+        clearQueues();
 		
         DrawDebug(g);
         frame++;

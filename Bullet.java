@@ -3,13 +3,17 @@ import java.awt.Graphics;
 
 public class Bullet extends Entity  {
     Vector2 velocity;
+    Entity FiredFrom;
+    boolean ended = false;
 
-    public Bullet(Vector2 pos, Vector2 velocity)
+    public Bullet(Entity FiredFrom, Vector2 pos, Vector2 velocity)
     {
         this.pos = pos;
         this.velocity = velocity;
+        this.FiredFrom = FiredFrom;
 
         Collider newCollider = new Collider(this, 6, .1);
+        newCollider.movable = false;
         this.AddComponent(newCollider);
     }
 
@@ -35,8 +39,15 @@ public class Bullet extends Entity  {
         switch (event)
         {
             case "Collider.Touch":
-                Entity e = (Entity) eventObj;
-                Destroy();
+                if (ended) {return;}
+
+                if (eventObj instanceof Mortal && eventObj != FiredFrom)
+                {
+                    Mortal m = (Mortal) eventObj;
+                    m.damage(1);
+                    ended = true;
+                    Destroy();
+                }
         }
     }
 }

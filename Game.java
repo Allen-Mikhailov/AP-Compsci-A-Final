@@ -1,6 +1,8 @@
 public class Game {
     private Engine engine;
 
+    final double spawnTime = 5;
+
     public Game(Engine e)
     {
         engine = e;
