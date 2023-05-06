@@ -46,6 +46,10 @@ public class Bullet extends Entity  {
                     Mortal m = (Mortal) eventObj;
                     m.damage(1);
                     ended = true;
+
+                    Particle particle = new Particle("Explosion", pos, .04, .25);
+                    Engine.engine.AddEntity(particle);
+
                     Destroy();
                 }
         }

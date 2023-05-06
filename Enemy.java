@@ -32,7 +32,8 @@ public class Enemy extends Mortal {
         g.setColor(Color.black);
         DrawCircle(g, vectorPos, (int) size+4);
 
-        g.setColor(Color.green);
+
+        g.setColor(new Color((float)(5-health)/5, (float)health/5, 0));
         DrawCircle(g, vectorPos, (int) size);
 
         // Eyes
@@ -69,5 +70,14 @@ public class Enemy extends Mortal {
         Vector2 dir = target.pos.sub(pos).normalize();
 
         pos = pos.add(dir.scale(speed));
+    }
+
+    @Override
+    public void onDeath() {
+        
+        Particle particle = new Particle("Explosion", pos, .08, .5);
+        Engine.engine.AddEntity(particle);
+
+        super.onDeath();
     }
 }

@@ -1,7 +1,7 @@
 public class Game {
     private Engine engine;
 
-    final double spawnTime = 2.25;
+    final double spawnTime = 2.2;
 
     Player player;
     Camera camera;
@@ -11,6 +11,8 @@ public class Game {
     public Game(Engine e)
     {
         engine = e;
+
+        AssetLoader.LoadImage("Explosion", "./Assets/Explosion.png");
 
         Background background = new Background();
 

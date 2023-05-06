@@ -36,14 +36,14 @@ class MyPanelb extends JPanel implements ActionListener, MouseListener, KeyListe
 	
 	MyPanelb()
 	{
+		engine = new Engine();
+		engine.screenWidth = 800;
+		engine.screenHeight = 800;
+
 		time = new Timer(15, this); //sets delay to 15 millis and calls the actionPerformed of this class.
 		setSize(800, 810);
 		setVisible(true); //it's like calling the repaint method.
 		time.start();
-
-		engine = new Engine();
-		engine.screenWidth = 800;
-		engine.screenHeight = 800;
 	
 	}
 	
