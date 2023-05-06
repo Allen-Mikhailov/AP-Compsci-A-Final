@@ -5,16 +5,23 @@ public class Bullet extends Entity  {
     Vector2 velocity;
     Entity FiredFrom;
     boolean ended = false;
+    BulletData data;
 
-    public Bullet(Entity FiredFrom, Vector2 pos, Vector2 velocity)
+    
+    public static class BulletData {
+        public double speed, damage, size;
+    }
+
+    public Bullet(Entity FiredFrom, Vector2 pos, Vector2 direction, BulletData data)
     {
         this.pos = pos;
-        this.velocity = velocity;
+        this.velocity = direction.scale(data.speed);
         this.FiredFrom = FiredFrom;
 
-        Collider newCollider = new Collider(this, 6, .1);
+        Collider newCollider = new Collider(this, data.size, .1);
         newCollider.movable = false;
         this.AddComponent(newCollider);
+        this.data = data;
     }
 
     @Override
@@ -31,7 +38,7 @@ public class Bullet extends Entity  {
         int ly = (int) (pos.y-cameraPos.y);
 
         g.setColor(Color.black);
-        g.fillOval(lx-3, ly-3, 6, 6);
+        DrawingUtils.DrawCircle(g, new Vector2(lx, ly), data.size, Color.black);
     }
 
     @Override
@@ -44,7 +51,7 @@ public class Bullet extends Entity  {
                 if (eventObj instanceof Mortal && eventObj != FiredFrom)
                 {
                     Mortal m = (Mortal) eventObj;
-                    m.damage(1);
+                    m.damage(data.damage);
                     ended = true;
 
                     Particle particle = new Particle("Explosion", pos, .04, .25);

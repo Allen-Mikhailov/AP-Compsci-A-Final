@@ -10,6 +10,7 @@ public class DrawingUtils {
 
     public static void DrawCircle(Graphics g, Vector2 pos, double diameter, Color color)
     {
+        g.setColor(color);
         g.fillOval(
             roundedInt(pos.x-diameter/2), 
             roundedInt(pos.y-diameter/2), 

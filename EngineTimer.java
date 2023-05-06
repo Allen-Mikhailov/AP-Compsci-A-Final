@@ -9,6 +9,14 @@ public class EngineTimer {
         reset();
     }
 
+    public EngineTimer(double length, boolean startReady)
+    {
+        this.length = length;
+
+        if (!startReady)
+            reset();
+    }
+
     public boolean isReady()
     {
         return Engine.GameTime >= next;

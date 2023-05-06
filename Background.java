@@ -9,7 +9,7 @@ public class Background extends Entity {
     final int lineWidth = 5;
     final int linesPerScreen = 6;
 
-    public void render(Graphics g, Vector2 cameraPos)
+    public void prerender(Graphics g, Vector2 cameraPos)
     {
         int lx = (int) (pos.x-cameraPos.x);
         int ly = (int) (pos.y-cameraPos.y);
@@ -17,10 +17,12 @@ public class Background extends Entity {
         double xspacing = (double) Engine.engine.screenWidth / ( linesPerScreen - 1 );
         // double yspacing = (double) Engine.engine.screenHeight / ( linesPerScreen - 1 );
 
-        g.setColor(new Color(100, 100, 125));
+        int dim = 1;
+
+        g.setColor(new Color(100/dim, 100/dim, 125/dim));
         g.fillRect(0, 0, Engine.engine.screenWidth, Engine.engine.screenHeight);
 
-        g.setColor(new Color(75, 75, 100));
+        g.setColor(new Color(75/dim, 75/dim, 100/dim));
 
         for (int i = 0; i < linesPerScreen; i++)
         {

@@ -33,7 +33,7 @@ public class Enemy extends Mortal {
         DrawCircle(g, vectorPos, (int) size+4);
 
 
-        g.setColor(new Color((float)(5-health)/5, (float)health/5, 0));
+        g.setColor(new Color(.3f*(float)(5-health)/5, .3f*(float)health/5, 0));
         DrawCircle(g, vectorPos, (int) size);
 
         // Eyes

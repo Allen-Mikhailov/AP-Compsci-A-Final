@@ -175,9 +175,34 @@ public class Engine {
 
         clearQueues();
 
+        // pre render
+        for (Entity entity : entities)
+        {
+            entity.prerender(g, cameraPos);
+            for (Component component : entity.components)
+            {
+                component.prerender(g, cameraPos);
+            }
+        }
+
+        // normal render
         for (Entity entity : entities)
         {
             entity.render(g, cameraPos);
+            for (Component component : entity.components)
+            {
+                component.render(g, cameraPos);
+            }
+        }
+
+        // Post render
+        for (Entity entity : entities)
+        {
+            entity.postrender(g, cameraPos);
+            for (Component component : entity.components)
+            {
+                component.postrender(g, cameraPos);
+            }
         }
 
         clearQueues();

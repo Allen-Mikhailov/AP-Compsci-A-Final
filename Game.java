@@ -1,7 +1,7 @@
 public class Game {
     private Engine engine;
 
-    final double spawnTime = 2.2;
+    final double spawnTime = 1.75;
 
     Player player;
     Camera camera;

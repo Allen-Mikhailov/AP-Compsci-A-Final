@@ -15,7 +15,16 @@ public class Player extends Mortal {
 
     private boolean heldDown = false;
 
+    private Gun[] guns;
+    private EngineTimer[] gunTimers;
+    private Gun currentGun;
     private EngineTimer bulletTimer;
+
+    private void switchGun(int index)
+    {
+        this.currentGun = guns[index];
+        bulletTimer= gunTimers[index];
+    }
 
     public Player()
     {
@@ -26,9 +35,34 @@ public class Player extends Mortal {
         Collider newCollider = new Collider(this);
         AddComponent(newCollider);
 
+        // PointLight light = new PointLight(this);
+        // this.AddComponent(light);
+
         direction = Vector2.zero;
 
-        bulletTimer = new EngineTimer(0.1);
+        guns = new Gun[2];
+        gunTimers = new EngineTimer[2];
+        
+        Gun basicGun = new Gun();
+        basicGun.fireRate = .1;
+        basicGun.bulletSpeed = 20;
+        basicGun.bulletSize = 6;
+        basicGun.damage = 1;
+        gunTimers[0] = basicGun.createTimer();
+        guns[0] = basicGun;
+
+        Gun bigGun = new Gun();
+        bigGun.fireRate = 1;
+        bigGun.bulletSpeed = 10;
+        bigGun.bulletSize = 20;
+        bigGun.damage = 5;
+        gunTimers[1] = bigGun.createTimer();
+        guns[1] = bigGun;
+
+        switchGun(0);
+
+        // Guns
+        
     }
 
     private void UpdateDirection()
@@ -50,6 +84,17 @@ public class Player extends Mortal {
     private void keyevent(KeyEvent e, String type)
     {
         String keychar = ""+ (char) e.getKeyCode();
+
+        // Switch guns
+        if (Character.isDigit((char) e.getKeyCode()))
+        {
+            int index = Integer.parseInt(keychar)-1;
+
+            if (index > -1 && index < guns.length)
+                switchGun(index);
+            return;
+        }
+
         switch (keychar)
         {
             case "W":
@@ -88,10 +133,7 @@ public class Player extends Mortal {
 
     private void Fire()
     {
-        Vector2 mouseDir = Engine.engine.GetMouseDirection();
-        Bullet newBullet = new Bullet(this, pos.add(mouseDir.scale(30)), mouseDir.scale(20));
-
-        Engine.engine.AddEntity(newBullet);
+        currentGun.Fire(this, pos.add(Engine.engine.GetMouseDirection().scale(30)));
         bulletTimer.reset();
     }
 
@@ -106,7 +148,7 @@ public class Player extends Mortal {
                 keyevent((KeyEvent) eventObj, "Released");
                 break;
             case "Mouse.Pressed":
-                Fire();
+                // Fire();
                 heldDown = true;
                 break;
 
@@ -138,23 +180,4 @@ public class Player extends Mortal {
 
         g.drawLine(lx, ly, lx+(int)(mouseDir.x*40), ly+(int)(mouseDir.y*40));
     }
-
-    // @Override
-    // public double radius() {
-    //     return 5;
-    // }
-
-    // @Override
-    // public void onTouch(Entity e) {
-    //     // System.out.println("Touched");
-    // }
-
-    // @Override
-    // public boolean isHard() {
-    //     return true;
-    // }
-    // @Override
-    // public double weight() {
-    //     return 1;
-    // }
 }

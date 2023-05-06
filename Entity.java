@@ -43,13 +43,20 @@ public class Entity {
         return null;
     }
 
+    public void prerender(Graphics g, Vector2 cameraPos)
+    {
+        
+    }
+
     public void render(Graphics g, Vector2 cameraPos)
     {
         int lx = (int) (pos.x-cameraPos.x);
         int ly = (int) (pos.y-cameraPos.y);
+    }
 
-        g.setColor(Color.red);
-        g.fillRect(lx - 25, ly - 25, 50, 50);
+    public void postrender(Graphics g, Vector2 cameraPos)
+    {
+        
     }
 
     public void OnEvent(String event, Object eventObj)
