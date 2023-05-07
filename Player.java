@@ -139,6 +139,7 @@ public class Player extends Mortal {
 
     @Override
     public void OnEvent(String event, Object eventObj) {
+        int button;
         switch (event)
         {
             case "Key.Pressed":
@@ -148,12 +149,15 @@ public class Player extends Mortal {
                 keyevent((KeyEvent) eventObj, "Released");
                 break;
             case "Mouse.Pressed":
-                // Fire();
-                heldDown = true;
+                button = ((MouseEvent) eventObj).getButton();
+                if (button == 1)
+                    heldDown = true;
                 break;
 
             case "Mouse.Released":
-                heldDown = false;
+                button = ((MouseEvent) eventObj).getButton();
+                if (button == 1)
+                    heldDown = false;
                 break;
         }
     }

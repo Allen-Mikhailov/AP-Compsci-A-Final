@@ -45,8 +45,6 @@ public class PointLight extends Component {
             DrawingUtils.roundedInt(d.minIntensity*255)
         ));
 
-        double lastAlpha = 0;
-
         for (int i = 1; i < d.folds; i++)
         {
             DrawingUtils.DrawCircle(g, localPos, d.diameter*((double)i/d.folds), new Color(
