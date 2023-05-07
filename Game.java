@@ -13,6 +13,7 @@ public class Game {
         engine = e;
 
         AssetLoader.LoadImage("Explosion", "./Assets/Explosion.png");
+        SoundHandler.LoadSound("Bang", "./Assets/Bang.wav");
 
         Background background = new Background();
 

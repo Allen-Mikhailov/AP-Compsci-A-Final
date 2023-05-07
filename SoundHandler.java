@@ -1,37 +1,70 @@
 import javax.sound.sampled.*;
 import javax.swing.*;
-import java.io.IOException;
+import javax.swing.Timer;
+import java.io.*;
+import java.awt.event.*;
+import java.util.HashMap;
 
 public class SoundHandler {
     public static class Sound
     {
-        Clip clip;
-        AudioInputStream sound;
+        File file;
 
-        public Sound(AudioInputStream sound)
+        public Sound(File file)
         {
             try {
-                this.sound = sound;
-                clip = AudioSystem.getClip();
-                clip.open(sound);
+                this.file = file;
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
 
         public void play() {
-            clip.start();
-        }
-        public void stop() throws IOException {
-            sound.close();
-            clip.close();
-            clip.stop();
+            try {
+                AudioInputStream sound = AudioSystem.getAudioInputStream(file);
+                Clip clip = AudioSystem.getClip();
+                clip.open(sound);
+                clip.start();
+
+                int delay = 4000; //milliseconds
+                ActionListener taskPerformer = new ActionListener() {
+                    public void actionPerformed(ActionEvent evt) {
+                        try {
+                            sound.close();
+                            clip.close();
+                            clip.stop();   
+                        } catch(Exception e) {
+            
+                        }
+                    }
+                };
+                Timer timer = new Timer(delay, taskPerformer);
+                timer.setRepeats(false);
+                timer.start();
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            
         }
     }
 
-    public void PlaySound()
+    private static  HashMap<String, Sound> sounds = new HashMap<String, Sound>();
+
+    public static void LoadSound(String name, String filename)
     {
-        // AudioSystem.
+        try {
+            File file = new File(filename);
+            Sound sound = new Sound(file);
+            sounds.put(name, sound);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         
+    }
+
+    public static void PlaySound(String name)
+    {
+        sounds.get(name).play();
     }
 }

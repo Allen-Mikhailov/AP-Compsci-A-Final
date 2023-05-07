@@ -11,6 +11,7 @@ public class Gun {
 
     public void Fire(Entity firedFrom, Vector2 pos)
     {
+        SoundHandler.PlaySound("Bang");
         Bullet.BulletData bulletData = new Bullet.BulletData();
         bulletData.damage = damage;
         bulletData.size = bulletSize;
