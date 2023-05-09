@@ -48,6 +48,7 @@ public class Player extends Mortal {
         basicGun.bulletSpeed = 20;
         basicGun.bulletSize = 6;
         basicGun.damage = 1;
+        basicGun.recoil = 4;
         gunTimers[0] = basicGun.createTimer();
         guns[0] = basicGun;
 
@@ -56,6 +57,7 @@ public class Player extends Mortal {
         bigGun.bulletSpeed = 10;
         bigGun.bulletSize = 20;
         bigGun.damage = 5;
+        bigGun.recoil = 20;
         gunTimers[1] = bigGun.createTimer();
         guns[1] = bigGun;
 

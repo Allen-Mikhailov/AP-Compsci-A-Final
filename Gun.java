@@ -3,6 +3,7 @@ public class Gun {
     public double bulletSpeed;
     public double bulletSize;
     public double damage;
+    public double recoil;
 
     public EngineTimer createTimer()
     {
@@ -21,5 +22,7 @@ public class Gun {
         Bullet newBullet = new Bullet(firedFrom, pos.add(mouseDir.scale(30)), mouseDir, bulletData);
 
         Engine.engine.AddEntity(newBullet);
+
+        firedFrom.pos = firedFrom.pos.add(mouseDir.scale(-1*recoil));
     }
 }

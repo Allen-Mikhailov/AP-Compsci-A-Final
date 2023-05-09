@@ -54,6 +54,8 @@ public class Bullet extends Entity  {
                     m.damage(data.damage);
                     ended = true;
 
+                    m.pos = m.pos.add(velocity.normalize().scale(5));
+
                     Particle particle = new Particle("Explosion", pos, .04, .25);
                     Engine.engine.AddEntity(particle);
 
