@@ -2,10 +2,12 @@ import java.util.ArrayList;
 
 public class Collider extends Component {
 
+    // Properties
     private double radius = 25;
     private double weight = 1;
     public boolean movable = true;
 
+    // List of all colliders
     private static ArrayList<Entity> colliders = new ArrayList<Entity>();
 
     public Collider(Entity e)
@@ -33,6 +35,7 @@ public class Collider extends Component {
                 Collider c1 = (Collider) e1.GetComponent(Collider.class);
                 Collider c2 = (Collider) e2.GetComponent(Collider.class);
 
+                // Collision Calculations
                 Vector2 dif = e2.pos.sub(e1.pos);
                 double distance = dif.magnitude();
                 double distanceDif = c1.radius + c2.radius - distance;
@@ -43,6 +46,7 @@ public class Collider extends Component {
                     e2.OnEvent("Collider.Touch", e1);
                     if (c2.movable && c1.movable || true)
                     {
+                        // If they are both movable the use physics to collide
                         double weightRatio = c1.weight/(c1.weight+c2.weight);
 
                         e1.pos = e1.pos.sub(dif.normalize().scale(distanceDif/2*(1-weightRatio)));

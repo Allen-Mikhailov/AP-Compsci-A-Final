@@ -5,11 +5,13 @@ import java.io.*;
 
 public class AssetLoader {
 
+    // Cache of all loaded images
     public static HashMap<String, Image> loadedImages = new HashMap<String, Image>();
 
 
     public static void LoadImage(String name, String path)
     {
+        // Attempt to read the image
         try
 		{
 			Image image = ImageIO.read(new File(path));
@@ -20,6 +22,7 @@ public class AssetLoader {
         }
     }
 
+    // Loads an array of images
     public static void MassLoad(String[] names, String[] paths)
     {
         for (int i = 0; i < names.length; i++)

@@ -10,6 +10,7 @@ public class Vector2
         this.y = 0.0f;
     }
        
+    // Main Constructor
     public Vector2(double x, double y) {
         this.x = x;
         this.y = y;
@@ -47,24 +48,31 @@ public class Vector2
         return new Vector2(a.x / a.magnitude(), a. y/ a.magnitude());
     }
 
+    // Adding two vectors
     public Vector2 add(Vector2 b)
     {return Vector2.add(this, b);}
 
+    // subtracting two vectors
     public Vector2 sub(Vector2 b)
     {return Vector2.sub(this, b);}
 
+    // scaling vectors by number
     public Vector2 scale(double b)
     {return Vector2.scale(this, b);}
 
+    // Getting the distance between two vectors
     public double distance(Vector2 b)
     {return Vector2.distance(this, b);}
 
+    // Getting the magnitude of a vector
     public double magnitude()
     {return Vector2.magnitude(this);}
 
+    // returning the normalized vector
     public Vector2 normalize()
     {return Vector2.normalize(this);}
 
+    // Vector from Polar cordinates
     public static Vector2 polar(double radius, double theta)
     {
         return new Vector2(Math.cos(theta)*radius, Math.sin(theta)*radius);
@@ -82,6 +90,7 @@ public class Vector2
     public static Vector2 left = new Vector2(-1, 0);
     public static Vector2 right = new Vector2(1, 0);
 
+    // To String
     public String toString()
     {
         return ""+x+" "+y;

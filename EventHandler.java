@@ -3,9 +3,11 @@ import java.util.HashMap;
 
 public class EventHandler extends Component {
 
+    // Arraylist of all event connections
     private static HashMap<String, ArrayList<EventHandler>> eventConnections 
         = new HashMap<String, ArrayList<EventHandler>>();
 
+    // Adds a connection to the array
     public static void AddConnection(String event, EventHandler handler)
     {
         if (!eventConnections.containsKey(event))
@@ -14,11 +16,13 @@ public class EventHandler extends Component {
         eventConnections.get(event).add(handler);
     }
 
+    // removes a connection
     public static void RemoveConnection(String event, EventHandler handler)
     {
         eventConnections.get(event).remove(handler);
     }
 
+    // Handles firing of all of the connections
     public static void FireEvent(String event, Object eventObj)
     {
         if (eventConnections.get(event) != null)
@@ -30,6 +34,7 @@ public class EventHandler extends Component {
         }
     }
 
+    // Main constructor
     public EventHandler(Entity e, String[] events)
     {
         super(e);
@@ -42,7 +47,7 @@ public class EventHandler extends Component {
 
     @Override
     public void OnDestroy() {
-        // TODO Auto-generated method stub
+        
         super.OnDestroy();
     }
 }

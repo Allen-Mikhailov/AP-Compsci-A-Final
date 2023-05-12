@@ -1,10 +1,12 @@
 import java.awt.*;
 
 public class Particle extends Entity {
+    // Properties
     private Image image;
     private int width, height;
     private EngineTimer timer;
 
+    // Actual constructor 
     private void construct(Image img, Vector2 pos, double scale, double lifetime)
     {
         this.pos = pos;
@@ -28,12 +30,14 @@ public class Particle extends Entity {
 
     @Override
     public void update() {
+        // Destroying if timer is done
         if (timer.isReady())
             Destroy();
     }
 
     @Override
     public void render(Graphics g, Vector2 cameraPos) {
+        // local position
         int lx = (int) (pos.x-cameraPos.x);
         int ly = (int) (pos.y-cameraPos.y);
 

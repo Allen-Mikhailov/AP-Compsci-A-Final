@@ -4,22 +4,24 @@ import java.awt.event.*;
 
 public class Player extends Mortal {
 
-    private Vector2 direction;
-
     private double speed = 4;
 
+    // State
     private boolean Up;
     private boolean Down;
     private boolean Left;
     private boolean Right;
+    private Vector2 direction;
 
     private boolean heldDown = false;
 
+    // Properties
     private Gun[] guns;
     private EngineTimer[] gunTimers;
     private Gun currentGun;
     private EngineTimer bulletTimer;
 
+    // Switches guns
     private void switchGun(int index)
     {
         this.currentGun = guns[index];
@@ -28,18 +30,20 @@ public class Player extends Mortal {
 
     public Player()
     {
+        // Event Handler
         EventHandler events = new EventHandler(this, new String[] 
             {"Key.Pressed", "Key.Released", "Mouse.Pressed", "Mouse.Released"});
         AddComponent(events);
 
+        // Collider
         Collider newCollider = new Collider(this);
         AddComponent(newCollider);
 
-        // PointLight light = new PointLight(this);
-        // this.AddComponent(light);
+        
 
         direction = Vector2.zero;
 
+        // Weapons
         guns = new Gun[2];
         gunTimers = new EngineTimer[2];
         
@@ -69,8 +73,9 @@ public class Player extends Mortal {
 
     private void UpdateDirection()
     {
+        // Getting the direction
         Vector2 dir = Vector2.zero;
-
+        
         if (Up)
             dir = dir.sub(Vector2.up);
         if (Down)
@@ -83,6 +88,7 @@ public class Player extends Mortal {
         direction = dir.normalize();
     }
 
+    // Handling the keys
     private void keyevent(KeyEvent e, String type)
     {
         String keychar = ""+ (char) e.getKeyCode();
@@ -97,6 +103,7 @@ public class Player extends Mortal {
             return;
         }
 
+        // WASD
         switch (keychar)
         {
             case "W":
@@ -133,12 +140,14 @@ public class Player extends Mortal {
         }
     }
 
+    // Fires gun
     private void Fire()
     {
         currentGun.Fire(this, pos.add(Engine.engine.GetMouseDirection().scale(30)));
         bulletTimer.reset();
     }
 
+    // Event 
     @Override
     public void OnEvent(String event, Object eventObj) {
         int button;
